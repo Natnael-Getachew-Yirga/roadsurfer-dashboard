@@ -1,0 +1,29 @@
+// main.scss
+
+// Import the company logo as a variable
+$company-logo: url('https://roadsurfer.com/wp-content/themes/roadsurfer/_/img/logo/logo.svg');
+
+// Define primary and secondary colors
+$primary-color: #ffffff;
+$secondary-color: #6bbbae;
+
+// Global styles
+body {
+  font-family: 'Encode Sans', sans-serif;
+  background-color: $primary-color;
+  padding: 0;
+}
+
+// Header styles
+.header {
+  background-color: $secondary-color;
+  background-image: $company-logo;
+  background-repeat: no-repeat;
+  background-position: left;
+  position: sticky;
+  padding: 50px; // Increase padding for a larger header
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Optional: add a shadow for depth
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
