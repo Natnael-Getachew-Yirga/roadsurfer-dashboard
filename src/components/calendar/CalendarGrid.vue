@@ -22,6 +22,17 @@
           {{ booking.customerName }}
         </div>
       </div>
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item">
+          <div class="color-box pickup"></div>
+          Pickup
+        </div>
+        <div class="legend-item">
+          <div class="color-box return"></div>
+          Return
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +53,7 @@ export default {
     }
   },
   mounted() {
+    // Fetch bookings when the component is mounted
     this.fetchBookings()
   },
   methods: {
@@ -50,15 +62,17 @@ export default {
       return DateUtils.getFormattedDate(date)
     },
     navigateWeek(step) {
+      // Update baseDate when navigating weeks
       this.baseDate = DateUtils.navigateWeek(this.baseDate, step)
       this.fetchBookings()
     },
     fetchBookings() {
       if (!this.selectedStation) {
+        // Clear bookings if no station is selected
         this.bookings = []
         return
       }
-
+      // Fetch bookings for the selected station
       apiService
         .getBookingsForStation(this.selectedStation)
         .then((response) => {
@@ -69,6 +83,7 @@ export default {
         })
     },
     bookingsByDayAndStation(day) {
+      // Filter bookings based on the day and selected station
       const dayIndex = this.daysOfWeek.indexOf(day)
       const startOfWeek = new Date(this.baseDate)
       startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + dayIndex)
@@ -86,16 +101,19 @@ export default {
       })
     },
     isPickup(startDate, day) {
+      // Check if a booking is a pickup on the specified day
       const bookingStartDate = new Date(startDate)
       const bookingDay = bookingStartDate.toLocaleDateString('en-US', { weekday: 'long' })
       return bookingDay === day
     },
     isReturn(endDate, day) {
+      // Check if a booking is a return on the specified day
       const bookingEndDate = new Date(endDate)
       const bookingDay = bookingEndDate.toLocaleDateString('en-US', { weekday: 'long' })
       return bookingDay === day
     },
     openBookingDetail(booking) {
+      // Navigate to the booking detail page
       this.$router.push({
         name: 'BookingDetail',
         params: {
@@ -107,6 +125,7 @@ export default {
   },
   watch: {
     selectedStation(newStation, oldStation) {
+      // Fetch bookings when the selected station changes
       if (newStation !== oldStation) {
         this.fetchBookings()
       }
@@ -131,36 +150,35 @@ export default {
 .week-navigation {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 90%;
   margin-bottom: 20px;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  width: 100%;
+  gap: 7px;
+  width: 90%;
 }
 
 .day-column {
-  display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 1px solid #ccc; /* Vertical line */
+  border-right: 1px solid #ccc;
 }
 
 .day-column:last-child {
-  border-right: none; /* Remove line for the last column */
+  border-right: none;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
   .calendar-grid {
-    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns for smaller screens */
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .week-navigation button {
-    padding: 5px 10px; /* Smaller padding for smaller screens */
+    padding: 5px 10px;
   }
 }
 
@@ -187,5 +205,21 @@ export default {
 }
 .return {
   background-color: lightblue; /* Example color for return bookings */
+}
+.legend {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.legend-item .color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 </style>

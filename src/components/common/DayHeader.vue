@@ -1,13 +1,20 @@
 <template>
   <div class="day-header">
     <h3>{{ dayName }}</h3>
-    <p>{{ date }}</p>
+    <p>{{ formattedDate(date) }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['dayName', 'date']
+  props: ['dayName', 'date'],
+  methods: {
+    formattedDate(dateString) {
+      const date = new Date(dateString)
+      const options = { year: 'numeric', month: 'short', day: 'numeric' }
+      return date.toLocaleDateString('en-US', options)
+    }
+  }
 }
 </script>
 

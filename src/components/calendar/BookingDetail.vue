@@ -1,7 +1,12 @@
 <template>
   <div class="booking-detail">
+    <!-- Title -->
     <h2>Booking Details</h2>
+
+    <!-- Loading state -->
     <div v-if="loading">Loading...</div>
+
+    <!-- Display booking details -->
     <div v-else>
       <p><strong>Customer Name:</strong> {{ booking?.customerName }}</p>
       <p><strong>Booking Start Date:</strong> {{ formattedDate(booking?.startDate) }}</p>
@@ -12,6 +17,8 @@
       </p>
       <p><strong>Station Name:</strong> {{ stationName }}</p>
     </div>
+
+    <!-- Go Back button -->
     <button @click="goBack">Go Back</button>
   </div>
 </template>
@@ -31,6 +38,7 @@ export default {
     this.fetchBookingDetails()
   },
   methods: {
+    // Fetch booking details
     fetchBookingDetails() {
       const { stationId, bookingId } = this.$route.params
 
@@ -46,6 +54,8 @@ export default {
           this.loading = false // Update loading state in case of error
         })
     },
+
+    // Fetch station name
     fetchStationName(stationId) {
       apiService
         .getStations()
@@ -59,6 +69,8 @@ export default {
           console.error('Error fetching station name:', error)
         })
     },
+
+    // Format date
     formattedDate(dateString) {
       if (!dateString) return ''
       const date = new Date(dateString)
@@ -70,6 +82,8 @@ export default {
         minute: 'numeric'
       })
     },
+
+    // Calculate duration
     calculateDuration(startDate, endDate) {
       const start = new Date(startDate)
       const end = new Date(endDate)
@@ -77,6 +91,8 @@ export default {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
       return diffDays
     },
+
+    // Go back to previous page
     goBack() {
       this.$router.back()
     }
