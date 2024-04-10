@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       daysOfWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      baseDate: new Date('2021-07-17'),
+      baseDate: new Date('2021-07-17'), // Default date for convince for api fetch
       bookings: []
     }
   },
